@@ -10,17 +10,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class LihatBab extends AppCompatActivity {
 
-    String[] daftar;
+    String[] id;
+    String[] nomor;
+    String[] judul;
+
     ListView ListView01;
     Menu menu;
     protected Cursor cursor;
     DataHelper dbcenter;
     public static LihatBab ma;
+
+    private ArrayList listItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,20 +41,36 @@ public class LihatBab extends AppCompatActivity {
     public void RefreshList() {
         SQLiteDatabase db = dbcenter.getReadableDatabase();
         cursor = db.rawQuery("SELECT * FROM bab",null);
-        daftar = new String[cursor.getCount()];
+        id = new String[cursor.getCount()];
+        nomor = new String[cursor.getCount()];
+        judul = new String[cursor.getCount()];
         cursor.moveToFirst();
+
+        listItem = new ArrayList<>();
+
+        BabModel law = null;
+
         for (int cc=0; cc < cursor.getCount(); cc++){
             cursor.moveToPosition(cc);
-            daftar[cc] = cursor.getString(0).toString();
+            id[cc] = cursor.getString(0).toString();
+            nomor[cc] = cursor.getString(1).toString();
+            judul[cc] = cursor.getString(2).toString();
+
+            law = new BabModel();
+            law.setNumber(nomor[cc]);
+            law.setTitle(judul[cc]);
+
+            listItem.add(law);
         }
         ListView01 = (ListView)findViewById(R.id.listView1);
-        ListView01.setAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, daftar));
+
+        BabAdapter adapter = new BabAdapter(LihatBab.this, listItem);
+
+        ListView01.setAdapter(adapter);
         ListView01.setSelected(true);
         ListView01.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-
             public void onItemClick(AdapterView arg0, View arg1, int arg2, long arg3) {
-                final String selection = daftar[arg2]; //.getItemAtPosition(arg2).toString();
+                final String selection = id[arg2]; //.getItemAtPosition(arg2).toString();
                 final CharSequence[] dialogitem = {"Lihat Pasal"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(LihatBab.this);
                 builder.setTitle("Pilihan");
@@ -65,8 +87,5 @@ public class LihatBab extends AppCompatActivity {
                 });
                 builder.create().show();
             }});
-        ((ArrayAdapter)ListView01.getAdapter()).notifyDataSetInvalidated();
     }
-
-
 }
