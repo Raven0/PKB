@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">PKB</string>
+    <string name="app_name">PKB PHT</string>
+    <string name="pasal">PASAL</string>
+    <string name="ayat">AYAT</string>
 </resources>
