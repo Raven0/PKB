@@ -5,9 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
 
         <FrameLayout>
 
@@ -15,7 +17,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_margin="10dp"
-                app:srcCompat="@drawable/rectangle" />
+                app:srcCompat="@drawable/circle" />
 
             <TextView
                 android:id="@+id/txt_item_number"
@@ -32,13 +34,12 @@
         </FrameLayout>
 
         <TextView
-            android:id="@+id/txt_item_title"
+            android:id="@+id/txt_item_content"
             android:layout_width="280dp"
-            android:layout_height="50dp"
             android:maxHeight="1000dp"
             android:layout_marginTop="9dp"
-            android:text="asd"
             android:gravity="center_vertical"
+            android:text="Content"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
     </GridLayout>
